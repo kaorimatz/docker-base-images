@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -u
 
 usage() {
   cat <<EOF
@@ -13,7 +14,7 @@ Options:
 EOF
 }
 
-options=$(getopt -o '' -l release-version: -- "$@" 2> /dev/null)
+options=$(getopt -o '' -l release-version:,help -- "$@" 2> /dev/null)
 if [[ $? -ne 0 ]]
 then
   usage "$(basename "$0")"
