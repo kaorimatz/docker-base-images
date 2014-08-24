@@ -1,4 +1,5 @@
 Vagrant.configure('2') do |config|
+
   config.vm.box = 'kaorimatz/fedora-rawhide-x86_64'
 
   config.vm.provider :virtualbox do |vbox|
@@ -8,8 +9,9 @@ Vagrant.configure('2') do |config|
   config.vm.provision :shell do |sh|
     sh.inline = <<-EOS
     yum -y install docker-io MAKEDEV
-    systemctl enable docker
-    systemctl start docker
+    systemctl enable docker.socket
+    usermod -a -G docker vagrant
     EOS
   end
+
 end
