@@ -49,7 +49,7 @@ repository=$1
 
 if [[ "$version" == 'rawhide' ]]
 then
-  releasever=21
+  releasever=22
   repoids=rawhide
 else
   releasever=$version
