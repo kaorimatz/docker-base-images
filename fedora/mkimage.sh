@@ -37,6 +37,11 @@ do
   esac
 done
 
+if [[ $# -lt 1 ]]; then
+  usage "$(basename "$0")"
+  exit 1
+fi
+
 repository=$1
 
 [[ -n "$repository" ]] || ( usage; exit 1 )
@@ -52,7 +57,8 @@ else
 fi
 
 cachedir=/var/cache/yum/x86_64/$releasever
-config=fedora-$version-x86_64.conf
+scriptdir=$(cd "$(dirname "$0")" && pwd)
+config=$scriptdir/fedora-$version-x86_64.conf
 installroot=/var/tmp/fedora-$version-x86_64
 
 rm -rf "$installroot"
