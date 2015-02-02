@@ -86,7 +86,7 @@ yum -y \
   install @core
 
 localedef --prefix "$installroot" --list-archive | \
-  grep -v en_US | \
+  grep -a -v en_US.utf8 | \
   xargs localedef --prefix "$installroot" --delete-from-archive
 mv "$installroot"/usr/lib/locale/locale-archive{,.tmpl}
 chroot "$installroot" /usr/sbin/build-locale-archive
