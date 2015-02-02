@@ -8,9 +8,8 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :shell do |sh|
     sh.inline = <<-EOS
-    yum -y install docker-io MAKEDEV
-    systemctl enable docker.socket
-    usermod -a -G docker vagrant
+    dnf -y install docker-io MAKEDEV yum
+    systemctl enable docker
     EOS
   end
 
