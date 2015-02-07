@@ -99,6 +99,16 @@ yum --config="$config" --installroot="$installroot" history new
 rm -rf "$installroot"/var/lib/yum/{yumdb,history}/*
 truncate -c -s 0 "$installroot"/var/log/yum.log
 
+for config in "$installroot"/etc/yum.conf "$installroot"/etc/dnf/dnf.conf; do
+  if [[ -f "$config" ]]; then
+    awk '
+    (NF==0 && !done) { print "tsflags=nodocs"; done=1 } { print }
+    END { if (!done) print "tsflags=nodocs" }
+    ' "$config" > "$config".new
+    mv "$config"{.new,}
+  fi
+done
+
 rm -rf "$installroot"/{boot,media,mnt,tmp}/*
 rm -f "$installroot$cachedir"
 
