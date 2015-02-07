@@ -92,13 +92,8 @@ localedef --prefix "$installroot" --list-archive | \
 mv "$installroot"/usr/lib/locale/locale-archive{,.tmpl}
 chroot "$installroot" /usr/sbin/build-locale-archive
 
-mv "$installroot"/usr/share/i18n/locales/en_US /tmp
-rm -rf "$installroot"/usr/share/i18n/locales/*
-mv /tmp/en_US "$installroot"/usr/share/i18n/locales/
-
-mv "$installroot"/usr/share/i18n/charmaps/UTF-8.gz /tmp
-rm -rf "$installroot"/usr/share/i18n/charmaps/*
-mv /tmp/UTF-8.gz "$installroot"/usr/share/i18n/charmaps/
+find "$installroot"/usr/share/i18n/locales -mindepth 1 -maxdepth 1 -not -name en_US -exec rm -rf {} +
+find "$installroot"/usr/share/i18n/charmaps -mindepth 1 -maxdepth 1 -not -name UTF-8.gz -exec rm -rf {} +
 
 yum --config="$config" --installroot="$installroot" history new
 rm -rf "$installroot"/var/lib/yum/{yumdb,history}/*
