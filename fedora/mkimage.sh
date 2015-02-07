@@ -109,6 +109,8 @@ for config in "$installroot"/etc/yum.conf "$installroot"/etc/dnf/dnf.conf; do
   fi
 done
 
+echo '%_install_langs en_US' > "$installroot"/etc/rpm/macros.mkimage
+
 rm -rf "$installroot"/{boot,media,mnt,tmp}/*
 rm -f "$installroot$cachedir"
 
