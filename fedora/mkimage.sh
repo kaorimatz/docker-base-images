@@ -83,6 +83,7 @@ yum -y \
   --setopt=cachedir="$cachedir" \
   --setopt=group_package_types=mandatory \
   --setopt=tsflags=nodocs \
+  --setopt=override_install_langs=en_US \
   install @core
 
 localedef --prefix "$installroot" --list-archive | \
@@ -90,10 +91,6 @@ localedef --prefix "$installroot" --list-archive | \
   xargs localedef --prefix "$installroot" --delete-from-archive
 mv "$installroot"/usr/lib/locale/locale-archive{,.tmpl}
 chroot "$installroot" /usr/sbin/build-locale-archive
-
-mv "$installroot"/usr/share/locale/{en{,_US},locale.alias} /tmp
-rm -rf "$installroot"/usr/share/locale/*
-mv /tmp/{en{,_US},locale.alias} "$installroot"/usr/share/locale/
 
 mv "$installroot"/usr/share/i18n/locales/en_US /tmp
 rm -rf "$installroot"/usr/share/i18n/locales/*
