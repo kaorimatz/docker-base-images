@@ -6,15 +6,15 @@ set -u
 usage() {
   cat <<EOF
 Usage:
-  $(basename "$0") REPOSITORY
+  $(basename "$0") --os-name=OS_NAME --os-version=OS_VERSION REPOSITORY
 
 Options:
-  [--release-version=VERSION]   Specify Fedora release version
-                                Default: rawhide
+  --os-name=OS_NAME         Specify OS name
+  --os-version=OS_VERSION   Specify OS version
 EOF
 }
 
-options=$(getopt -o '' -l release-version:,help -- "$@" 2> /dev/null)
+options=$(getopt -o '' -l os-name:,os-version:,help -- "$@" 2> /dev/null)
 if [[ $? -ne 0 ]]
 then
   usage "$(basename "$0")"
@@ -25,8 +25,11 @@ eval set -- "$options"
 while :
 do
   case "$1" in
-    --release-version)
-      version=$2
+    --os-name)
+      os_name=$2
+      shift 2;;
+    --os-version)
+      os_version=$2
       shift 2;;
     --help)
       usage
@@ -44,23 +47,34 @@ fi
 
 repository=$1
 
+[[ -n "$os_name" ]] || ( usage; exit 1 )
+[[ -n "$os_version" ]] || ( usage; exit 1 )
 [[ -n "$repository" ]] || ( usage; exit 1 )
-[[ -n "$version" ]] || version=rawhide
 
-if [[ "$version" == 'rawhide' ]]
-then
-  releasever=23
-  repoids=fedora-rawhide
-else
-  releasever=$version
-  repoids=fedora,fedora-updates
-fi
+case "$os_name" in
+  fedora)
+    if [[ "$os_version" == 'rawhide' ]]
+    then
+      releasever=23
+      repoids=fedora-rawhide
+    else
+      releasever=$os_version
+      repoids=fedora,fedora-updates
+    fi
+    ;;
+  centos)
+    releasever=$os_version
+    repoids=centos-base,centos-updates,centos-extras
+    ;;
+  *)
+    echo "Unknown OS name: $os_name"
+esac
 
 scriptdir=$(cd "$(dirname "$0")" && pwd)
 
 cachedir=/var/cache/yum/x86_64/$releasever
-config=$scriptdir/fedora-$version-x86_64.conf
-installroot=/var/tmp/fedora-$version-x86_64
+config=$scriptdir/${os_name}-${os_version}-x86_64.conf
+installroot=/var/tmp/${os_name}-${os_version}-x86_64
 reposdir=$scriptdir
 
 rm -rf "$installroot"
@@ -117,4 +131,4 @@ echo '%_install_langs en_US' > "$installroot"/etc/rpm/macros.mkimage
 rm -rf "$installroot"/{boot,media,mnt,tmp}/*
 rm -f "$installroot$cachedir"
 
-tar c -C "$installroot" . | docker import - "$repository:$version"
+tar c -C "$installroot" . | docker import - "$repository:$os_version"

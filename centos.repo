@@ -1,0 +1,14 @@
+[centos-base]
+name=CentOS $releasever - $basearch - Base
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os
+gpgcheck=0
+
+[centos-updates]
+name=CentOS $releasever - $basearch - Updates
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates
+gpgcheck=0
+
+[centos-extras]
+name=CentOS $releasever - $basearch - Extras
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras
+gpgcheck=0
