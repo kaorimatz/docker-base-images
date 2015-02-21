@@ -49,7 +49,7 @@ repository=$1
 
 if [[ "$version" == 'rawhide' ]]
 then
-  releasever=22
+  releasever=23
   repoids=fedora-rawhide
 else
   releasever=$version
