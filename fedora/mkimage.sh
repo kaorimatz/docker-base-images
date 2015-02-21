@@ -50,16 +50,18 @@ repository=$1
 if [[ "$version" == 'rawhide' ]]
 then
   releasever=22
-  repoids=rawhide
+  repoids=fedora-rawhide
 else
   releasever=$version
-  repoids=fedora,updates
+  repoids=fedora,fedora-updates
 fi
 
-cachedir=/var/cache/yum/x86_64/$releasever
 scriptdir=$(cd "$(dirname "$0")" && pwd)
+
+cachedir=/var/cache/yum/x86_64/$releasever
 config=$scriptdir/fedora-$version-x86_64.conf
 installroot=/var/tmp/fedora-$version-x86_64
+reposdir=$scriptdir
 
 rm -rf "$installroot"
 mkdir -p "$installroot"
@@ -82,8 +84,9 @@ yum -y \
   --releasever="$releasever" \
   --setopt=cachedir="$cachedir" \
   --setopt=group_package_types=mandatory \
-  --setopt=tsflags=nodocs \
   --setopt=override_install_langs=en_US \
+  --setopt=reposdir="$reposdir" \
+  --setopt=tsflags=nodocs \
   install @core
 
 localedef --prefix "$installroot" --list-archive | \

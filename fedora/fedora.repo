@@ -1,0 +1,14 @@
+[fedora]
+name=Fedora $releasever - $basearch
+metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch
+gpgcheck=0
+
+[fedora-updates]
+name=Fedora $releasever - $basearch - Updates
+metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch
+gpgcheck=0
+
+[fedora-rawhide]
+name=Fedora Rawhide - $basearch
+metalink=https://mirrors.fedoraproject.org/metalink?repo=rawhide&arch=$basearch
+gpgcheck=0
