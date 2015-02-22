@@ -68,6 +68,7 @@ case "$os_name" in
     ;;
   *)
     echo "Unknown OS name: $os_name"
+    exit 1
 esac
 
 scriptdir=$(cd "$(dirname "$0")" && pwd)
