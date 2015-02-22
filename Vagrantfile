@@ -10,7 +10,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :shell do |sh|
     sh.inline = <<-EOS
-    dnf -y install docker-io MAKEDEV yum
+    dnf -y install docker-io MAKEDEV yum pacman
     systemctl enable docker
     systemctl start docker
     EOS
