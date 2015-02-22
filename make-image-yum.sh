@@ -85,10 +85,6 @@ do
   MAKEDEV -v -d "$installroot"/dev -x "$dev"
 done
 
-mkdir -p "$cachedir"
-mkdir -p "$installroot/$(dirname "$cachedir")"
-ln -sf "$cachedir" "$installroot$cachedir"
-
 yum -y \
   --config="$config" \
   --disablerepo='*' \
@@ -129,6 +125,5 @@ done
 echo '%_install_langs en_US' > "$installroot"/etc/rpm/macros.mkimage
 
 rm -rf "$installroot"/{boot,media,mnt,tmp}/*
-rm -f "$installroot$cachedir"
 
 tar c -C "$installroot" . | docker import - "$repository:$os_version"
