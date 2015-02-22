@@ -30,7 +30,8 @@ do
   esac
 done
 
-if [[ $# -lt 1 ]]; then
+if [[ $# -lt 1 ]]
+then
   usage "$(basename "$0")"
   exit 1
 fi

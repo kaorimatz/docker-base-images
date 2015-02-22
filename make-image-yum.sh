@@ -40,7 +40,8 @@ do
   esac
 done
 
-if [[ $# -lt 1 ]]; then
+if [[ $# -lt 1 ]]
+then
   usage "$(basename "$0")"
   exit 1
 fi
@@ -113,8 +114,10 @@ yum --config="$config" --installroot="$installroot" history new
 rm -rf "$installroot"/var/lib/yum/{yumdb,history}/*
 truncate -c -s 0 "$installroot"/var/log/yum.log
 
-for config in "$installroot"/etc/yum.conf "$installroot"/etc/dnf/dnf.conf; do
-  if [[ -f "$config" ]]; then
+for config in "$installroot"/etc/yum.conf "$installroot"/etc/dnf/dnf.conf
+do
+  if [[ -f "$config" ]]
+  then
     awk '
     (NF==0 && !done) { print "tsflags=nodocs"; done=1 } { print }
     END { if (!done) print "tsflags=nodocs" }
