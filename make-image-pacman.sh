@@ -41,7 +41,7 @@ repository=$1
 
 scriptdir=$(cd "$(dirname "$0")" && pwd)
 
-config=$scriptdir/archlinux-x86_64.conf
+config=$scriptdir/archlinux.conf
 installroot=/var/tmp/archlinux-x86_64
 
 rm -rf "$installroot"
