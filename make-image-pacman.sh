@@ -48,10 +48,12 @@ installroot=/var/tmp/archlinux-x86_64
 rm -rf "$installroot"
 mkdir -m 755 -p "$installroot"/var/lib/pacman
 
-for dev in console null random urandom
-do
-  MAKEDEV -v -d "$installroot"/dev -x "$dev"
-done
+mkdir -p "$installroot"/dev
+mknod -m 666 "$installroot"/dev/null c 1 3
+mknod -m 666 "$installroot"/dev/random c 1 8
+mknod -m 666 "$installroot"/dev/urandom c 1 9
+mknod -m 666 "$installroot"/dev/tty c 5 0
+mknod -m 600 "$installroot"/dev/console c 5 1
 
 ln -s /proc/self/fd "$installroot"/dev/fd
 

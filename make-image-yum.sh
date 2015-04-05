@@ -82,10 +82,11 @@ reposdir=$scriptdir
 rm -rf "$installroot"
 mkdir -p "$installroot"
 
-for dev in console null urandom
-do
-  MAKEDEV -v -d "$installroot"/dev -x "$dev"
-done
+mkdir -p "$installroot"/dev
+mknod -m 666 "$installroot"/dev/null c 1 3
+mknod -m 666 "$installroot"/dev/urandom c 1 9
+mknod -m 666 "$installroot"/dev/tty c 5 0
+mknod -m 600 "$installroot"/dev/console c 5 1
 
 yum -y \
   --config="$config" \
