@@ -62,10 +62,24 @@ case "$os_name" in
       releasever=$os_version
       repoids=fedora,fedora-updates
     fi
+
+    if [[ "$releasever" -ge 22 ]]
+    then
+      packages=(bash coreutils curl dnf findutils iproute iputils less procps-ng rpm systemd util-linux vim-minimal)
+    else
+      packages=(bash coreutils curl findutils iproute iputils less procps-ng rpm systemd util-linux vim-minimal yum)
+    fi
     ;;
   centos)
     releasever=$os_version
     repoids=centos-base,centos-updates,centos-extras
+
+    if [[ "$releasever" -ge 7 ]]
+    then
+      packages=(bash coreutils curl findutils iproute iputils less procps-ng rpm systemd util-linux vim-minimal yum)
+    else
+      packages=(bash coreutils iproute iputils procps rpm util-linux-ng vim-minimal yum)
+    fi
     ;;
   *)
     echo "Unknown OS name: $os_name"
@@ -75,7 +89,6 @@ esac
 scriptdir=$(cd "$(dirname "$0")" && pwd)
 
 cachedir=/var/cache/yum/x86_64/$releasever
-config=$scriptdir/${os_name}-${os_version}-x86_64.conf
 installroot=/var/tmp/${os_name}-${os_version}-x86_64
 reposdir=$scriptdir
 
@@ -89,18 +102,16 @@ mknod -m 666 "$installroot"/dev/tty c 5 0
 mknod -m 600 "$installroot"/dev/console c 5 1
 
 yum -y \
-  --config="$config" \
   --disablerepo='*' \
   --enablerepo="$repoids" \
   --installroot="$installroot" \
   --nogpgcheck \
   --releasever="$releasever" \
   --setopt=cachedir="$cachedir" \
-  --setopt=group_package_types=mandatory \
   --setopt=override_install_langs=en_US \
   --setopt=reposdir="$reposdir" \
   --setopt=tsflags=nodocs \
-  install @core
+  install "${packages[@]}"
 
 localedef --prefix "$installroot" --list-archive | \
   grep -a -v en_US.utf8 | \
@@ -111,7 +122,6 @@ chroot "$installroot" /usr/sbin/build-locale-archive
 find "$installroot"/usr/share/i18n/locales -mindepth 1 -maxdepth 1 -not -name en_US -exec rm -rf {} +
 find "$installroot"/usr/share/i18n/charmaps -mindepth 1 -maxdepth 1 -not -name UTF-8.gz -exec rm -rf {} +
 
-yum --config="$config" --installroot="$installroot" history new
 rm -rf "$installroot"/var/lib/yum/{yumdb,history}/*
 truncate -c -s 0 "$installroot"/var/log/yum.log
 
