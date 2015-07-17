@@ -108,6 +108,7 @@ dnf -y \
   --nogpgcheck \
   --releasever="$releasever" \
   --setopt=cachedir="$cachedir" \
+  --setopt=keepcache=true \
   --setopt=reposdir="$reposdir" \
   --setopt=tsflags=nodocs \
   install "${packages[@]}"
