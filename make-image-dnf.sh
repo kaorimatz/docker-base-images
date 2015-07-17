@@ -17,7 +17,7 @@ EOF
 options=$(getopt -o '' -l os-name:,os-version:,help -- "$@" 2> /dev/null)
 if [[ $? -ne 0 ]]
 then
-  usage "$(basename "$0")"
+  usage
   exit 1
 fi
 eval set -- "$options"
@@ -42,7 +42,7 @@ done
 
 if [[ $# -lt 1 ]]
 then
-  usage "$(basename "$0")"
+  usage
   exit 1
 fi
 
@@ -54,7 +54,7 @@ repository=$1
 
 case "$os_name" in
   fedora)
-    if [[ "$os_version" == 'rawhide' ]]
+    if [[ "$os_version" == rawhide ]]
     then
       releasever=23
       repoids=(fedora-rawhide)
