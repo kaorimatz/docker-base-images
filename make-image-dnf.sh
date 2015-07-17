@@ -88,7 +88,7 @@ esac
 
 scriptdir=$(cd "$(dirname "$0")" && pwd)
 
-cachedir=/var/cache/dnf/x86_64/$releasever
+cachedir=/var/cache/dnf
 installroot=/var/tmp/${os_name}-${os_version}-x86_64
 reposdir=$scriptdir
 
