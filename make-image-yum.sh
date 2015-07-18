@@ -5,12 +5,14 @@ set -u
 
 usage() {
   cat <<EOF
+Create a Docker base image using Yum.
+
 Usage:
-  $(basename "$0") --os-name=OS_NAME --os-version=OS_VERSION REPOSITORY
+  $(basename "$0") --os-name=<os-name> --os-version=<os-version> <repository>
 
 Options:
-  --os-name=OS_NAME         Specify OS name
-  --os-version=OS_VERSION   Specify OS version
+  --os-name=<os-name>        OS name
+  --os-version=<os-version>  OS version
 EOF
 }
 

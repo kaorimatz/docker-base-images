@@ -5,8 +5,10 @@ set -u
 
 usage() {
   cat <<EOF
+Create a Docker base image using Pacman.
+
 Usage:
-  $(basename "$0") REPOSITORY
+  $(basename "$0") <repository>
 EOF
 }
 
