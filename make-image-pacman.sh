@@ -93,6 +93,7 @@ pacman-key --populate archlinux
 pkill gpg-agent
 EOF
 
+rm -f "$installroot"/etc/machine-id
 rm -rf "$installroot"/{boot,mnt,tmp}/*
 
 tar c -C "$installroot" . | docker import - "$repository":latest

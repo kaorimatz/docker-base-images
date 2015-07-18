@@ -141,6 +141,7 @@ done
 
 echo '%_install_langs en_US' > "$installroot"/etc/rpm/macros.mkimage
 
+rm -f "$installroot"/etc/machine-id
 rm -rf "$installroot"/{boot,media,mnt,tmp}/*
 
 tar c -C "$installroot" . | docker import - "$repository:$os_version"
