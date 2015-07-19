@@ -58,7 +58,7 @@ case "$os_name" in
   fedora)
     if [[ "$os_version" == 'rawhide' ]]
     then
-      releasever=23
+      releasever=24
       repoids=fedora-rawhide
     else
       releasever=$os_version
